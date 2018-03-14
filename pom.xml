@@ -10,7 +10,7 @@
 
     <groupId>com.cronutils</groupId>
     <artifactId>cron-utils-cli</artifactId>
-    <version>7.0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <name>cron-utils-cli</name>
     <description>CLI utility exposing cron-utils features.</description>
