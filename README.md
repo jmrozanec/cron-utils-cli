@@ -23,7 +23,9 @@ cron-utils-cli is available on [Maven central](http://search.maven.org/#search%7
 ***cron-utils CLI***
 
 We provide a simple CLI interface to use cron-utils right from console, without writing a new project!
-cron-utils-cli versions map 1-1 to cron-utils core library versions, making easier to track features parity.
+cron-utils-cli uses semantic versioning, but since lifecycle does not match the one of the core library,
+references the tag commit hash in core as metadata in satellite libraries release versions as means to keep traceability
+to the core library.
 
 - Usage: `java -jar cron-utils-cli.jar com.cronutils.cli.CronUtilsCLI --validate -f [CRON4J|QUARTZ|UNIX] -e '<cron expression>'`
 
