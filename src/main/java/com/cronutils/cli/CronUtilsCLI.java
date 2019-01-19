@@ -87,7 +87,7 @@ public class CronUtilsCLI {
                 return locale;
             }
         }
-        throw new IllegalStateException("No locale for language " + code);
+        return Locale.ENGLISH;
     }
 
     private static void showHelp(Options options, String header, String footer) {
