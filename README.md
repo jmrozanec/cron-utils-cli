@@ -27,9 +27,11 @@ cron-utils-cli uses semantic versioning, but since lifecycle does not match the 
 references the tag commit hash in core as metadata in satellite libraries release versions as means to keep traceability
 to the core library.
 
-- Usage: `java -jar cron-utils-cli.jar com.cronutils.cli.CronUtilsCLI --validate -f [CRON4J|QUARTZ|UNIX] -e '<cron expression>'`
+- Usage: `java -jar cron-utils-cli.jar com.cronutils.cli.CronUtilsCLI --validate -f [CRON4J|QUARTZ|UNIX|SPRING] -e '<cron expression>'`
 
 - Example: `java -jar cron-utils-cli.jar com.cronutils.cli.CronUtilsCLI --validate -f UNIX -e '* 1 * * *'`
+
+- Print Description: `java -jar cron-utils-cli.jar com.cronutils.cli.CronUtilsCLI --describe --language en -f UNIX -e '* 1 * * *'`
 
 If you want a standalone jar without requiring the 'cp', build an uber jar with :
 ```bash

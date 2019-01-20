@@ -57,7 +57,7 @@
     </distributionManagement>
 
     <properties>
-		<cronutils.version>7.0.1</cronutils.version>
+		<cronutils.version>8.0.0</cronutils.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <powermock.version>1.6.2</powermock.version>

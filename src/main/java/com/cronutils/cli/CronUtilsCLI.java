@@ -1,5 +1,11 @@
 package com.cronutils.cli;
 
+import com.cronutils.descriptor.CronDescriptor;
+import com.cronutils.model.Cron;
+import com.cronutils.model.CronType;
+import com.cronutils.model.definition.CronDefinition;
+import com.cronutils.model.definition.CronDefinitionBuilder;
+import com.cronutils.parser.CronParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -7,11 +13,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import com.cronutils.model.Cron;
-import com.cronutils.model.CronType;
-import com.cronutils.model.definition.CronDefinition;
-import com.cronutils.model.definition.CronDefinitionBuilder;
-import com.cronutils.parser.CronParser;
+import java.util.Locale;
 
 /*
  * Copyright 2017 bflorat, jmrozanec
@@ -39,6 +41,8 @@ public class CronUtilsCLI {
     private static void cronValidation(String[] args) throws ParseException {
         Options options = new Options();
         options.addOption("v", "validate", false, "Action of validation (default)");
+        options.addOption("d", "describe", false, "Action of describe");
+        options.addOption("l", "language", true, "The language of the description. Example: en");
         options.addOption("f", "format", true,
                 "Cron expression format to validate. Possible values are: CRON4J, QUARTZ, UNIX");
         options.addOption("e", "expression", true, "Cron expression to validate. Example: '* 1 * * *'");
@@ -58,15 +62,32 @@ public class CronUtilsCLI {
             return;
         }
         if (cmd.hasOption('v')) {
-            String format = cmd.getOptionValue("f");
-            String expression = cmd.getOptionValue("e");
-
-            CronType cronType = CronType.valueOf(format);
-            CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(cronType);
-            CronParser cronParser = new CronParser(cronDefinition);
-            Cron quartzCron = cronParser.parse(expression);
-            quartzCron.validate();
+            parseCron(cmd).validate();
         }
+        if (cmd.hasOption('d')) {
+            String language = cmd.getOptionValue("l");
+            CronDescriptor cronDescriptor = CronDescriptor.instance(findLocale(language));
+            System.out.println(cronDescriptor.describe(parseCron(cmd)));
+        }
+    }
+
+    private static Cron parseCron(CommandLine cmd) {
+        String format = cmd.getOptionValue("f");
+        String expression = cmd.getOptionValue("e");
+
+        CronType cronType = CronType.valueOf(format);
+        CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(cronType);
+        CronParser cronParser = new CronParser(cronDefinition);
+        return cronParser.parse(expression);
+    }
+
+    private static Locale findLocale(String code) {
+        for (Locale locale : Locale.getAvailableLocales()) {
+            if (locale.getLanguage().equals(code)) {
+                return locale;
+            }
+        }
+        return Locale.ENGLISH;
     }
 
     private static void showHelp(Options options, String header, String footer) {
